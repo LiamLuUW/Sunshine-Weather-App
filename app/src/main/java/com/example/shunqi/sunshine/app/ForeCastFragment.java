@@ -86,13 +86,14 @@ public class ForeCastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String detail = myAdapter.getItem(position);
-                int duration = Toast.LENGTH_SHORT;
+                /*int duration = Toast.LENGTH_SHORT;
                 Context context = getActivity().getApplicationContext();
                 Toast toast = Toast.makeText(context, detail, duration);
-                toast.show();
-                //switch(position){
-                  //  case 0: Intent intent = new Intent(this, DetailActivity.class);
-                //}
+                toast.show();*/
+
+                Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+                detailIntent.putExtra(Intent.EXTRA_TEXT,detail);
+                startActivity(detailIntent);
 
             }
         });
