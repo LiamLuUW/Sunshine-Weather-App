@@ -2,7 +2,9 @@ package com.example.shunqi.sunshine.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +44,15 @@ public class ForeCastFragment extends Fragment {
     public ForeCastFragment() {
     }
 
+    public void updateWeather(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location_pref = sharedPref.getString(getString(R.string.pref_location_key),
+                getString(R.string.default_pref_location));
+
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        weatherTask.execute(location_pref);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -56,12 +67,18 @@ public class ForeCastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
+
         if(id == R.id.action_refresh){
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("London");
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -71,11 +88,11 @@ public class ForeCastFragment extends Fragment {
        // FetchWeatherTask weatherTask = new FetchWeatherTask();
         //weatherTask.execute("London");
         ArrayList<String> forecastEntry =  new ArrayList();
-        forecastEntry.add("Today-Sunny-88/63");
+        /*forecastEntry.add("Today-Sunny-88/63");
         forecastEntry.add("Tomorrow-Sunny-88/63");
         forecastEntry.add("Wednesday-Sunny-88/63");
         forecastEntry.add("Thursday-Sunny-88/63");
-
+        */
         //Initialize arrayadapter
          myAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview, forecastEntry);
         ListView listView;
@@ -213,6 +230,7 @@ public class ForeCastFragment extends Fragment {
             String forecastJsonStr = null;
 
             try {
+
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
