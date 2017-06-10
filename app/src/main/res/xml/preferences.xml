@@ -7,4 +7,12 @@
         android:inputType="text"
         android:singleLine="true" />
 
+    <ListPreference
+        android:key="@string/pref_type_key"
+        android:title="@string/pref_type"
+        android:defaultValue="@string/default_pref_type"
+        android:entries="@array/pref_type_entries"
+        android:entryValues="@array/pref_type_values"
+       />
+
 </PreferenceScreen>

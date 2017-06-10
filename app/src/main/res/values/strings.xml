@@ -9,4 +9,11 @@
     <string name="pref_location">Location</string>
     <string name="pref_location_key">location</string>
     <string name="default_pref_location">Waterloo</string>
+    <string name="default_pref_type">metric</string>
+    <string name="type_imperial">imperial</string>
+    <string name="type_metric">metric</string>
+    <string name="pref_type_key">Temperature_Type</string>
+    <string name="pref_type">Temperature Type</string>
+    <string name="action_map">Location</string>
+    <string name="action_share">Share</string>
 </resources>

@@ -122,6 +122,12 @@ public class ForeCastFragment extends Fragment {
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+        private final double CONVERTOR = 32;
+
+        private double convertType(double temp){
+            return temp+CONVERTOR;
+        }
+
         /* The date/time conversion code is going to be moved outside the asynctask later,
         * so for convenience we're breaking it out into its own method now.
         */
@@ -161,6 +167,11 @@ public class ForeCastFragment extends Fragment {
             final String OWM_MAX = "max";
             final String OWM_MIN = "min";
             final String OWM_DESCRIPTION = "main";
+
+            /*get temp type*/
+            SharedPreferences typePref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String type_pref = typePref.getString(getString(R.string.pref_type_key),
+                    getString(R.string.default_pref_type));
 
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
@@ -209,6 +220,18 @@ public class ForeCastFragment extends Fragment {
                 JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
+
+                //Log.v(LOG_TAG,"Type is " + type_pref + high + low);
+
+                if(type_pref.equals("imperial")){
+                    high = convertType(high);
+                    low = convertType(low);
+
+                   // Log.v(LOG_TAG,"a Second time Type is " + type_pref + high + low);
+                }else{
+
+                   // Log.v(LOG_TAG,"b Second time Type is " + type_pref + high + low);
+                }
 
                 highAndLow = formatHighLows(high, low);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
