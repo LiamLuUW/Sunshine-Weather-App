@@ -38,6 +38,10 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <provider
+            android:authorities="com.example.shunqi.sunshine.app"
+            android:name="com.example.shunqi.sunshine.app.data.WeatherProvider">
+        </provider>
     </application>
 
 </manifest>
